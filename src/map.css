@@ -1,0 +1,29 @@
+.red {
+  color: brown;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.layers {
+  padding: 0.25rem;
+  background-color: rgba(0, 0, 255, 0.237);
+}
+.normal {
+  cursor: pointer;
+}
+.normal:hover {
+  font-weight: 600;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.map {
+  position: fixed;
+}
