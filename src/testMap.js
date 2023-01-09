@@ -37,7 +37,6 @@ import {
   showSuccessToast,
 } from "./helperFunctions";
 import { Link } from "react-router-dom";
-import { set } from "ol/transform";
 
 var map;
 let messageDisplayed = false;
@@ -111,7 +110,7 @@ export const TestMap = () => {
     style: createFillStyleInput(fillOpacity),
   });
 
-  let NGROK = "http://9013-35-230-100-55.ngrok.io";
+  let NGROK = "https://ee62-35-230-100-55.ngrok.io";
   let POST_URL = NGROK + "/request";
   let POLL_URL = NGROK + "/poll";
 
