@@ -12,7 +12,6 @@ import { defaults as defaultInteractions } from "ol/interaction";
 import "./map.css";
 import Feature from "ol/Feature.js";
 import GeoJSON from "ol/format/GeoJSON";
-import { DUMMY } from "./dummydata";
 import CoordinateInputForm from "./coordinateInputForm";
 import { Polygon } from "ol/geom";
 import { postAPI } from "./api";
@@ -37,6 +36,9 @@ import {
   showSuccessToast,
 } from "./helperFunctions";
 import { Link } from "react-router-dom";
+import MousePosition from "ol/control/MousePosition";
+import { createStringXY } from "ol/coordinate";
+import { defaults as defaultControls } from "ol/control";
 
 var map;
 let messageDisplayed = false;
@@ -49,9 +51,12 @@ export const TestMap = () => {
   const [checked, setChecked] = React.useState(false);
   const [fillOpacity, setFillOpacity] = useState(0);
   const [loader, setLoader] = useState(false);
+  const [loaderWithValue, setLoaderWithValue] = useState(false);
   const [state, setState] = useState(false);
   const [coordinates, setCoordinates] = useState([]);
   const [area, setArea] = useState(0);
+  const [count, setCount] = useState(0);
+  const [pointer, setPointer] = useState([]);
   const mapEl = useRef(null);
 
   const createFillStyleInput = (fillOpacity) => {
@@ -78,11 +83,20 @@ export const TestMap = () => {
     });
   };
 
+  const mousePositionControl = new MousePosition({
+    coordinateFormat: createStringXY(4),
+    projection: "EPSG:4326",
+    // comment the following two lines to have the mouse position
+    // be placed within the map.
+    className: "custom-mouse-position",
+    target: document.getElementById("mouse-position"),
+  });
+
   useEffect(() => {
     const google = new TileLayer({
       id: "base-layer",
       source: new TileImage({
-        url: "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+        url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
       }),
     });
 
@@ -96,7 +110,7 @@ export const TestMap = () => {
         center: fromLonLat([-49.22371, -22.62051]),
         zoom: 5,
       }),
-      controls: [],
+      controls: [mousePositionControl],
     });
 
     return () => map.setTarget(null);
@@ -130,8 +144,8 @@ export const TestMap = () => {
       .then((response) => {
         console.log(response);
         setLoader(false);
-        showSuccessToast("Post processing done!");
-        setProgress(8);
+        showSuccessToast("Processing Started!");
+        setProgress(1);
         setTimeout(() => {
           showRegularToast("Fetching Images!");
         }, 1000);
@@ -140,17 +154,16 @@ export const TestMap = () => {
           postAPI(POLL_URL, {})
             .then((response) => {
               console.log(response);
-              if (response.progress !== 1) {
+              if (response.progress !== 1 && messageDisplayed === false) {
                 setProgress(parseInt(response.progress * 100));
               } else {
                 if (!messageDisplayed) {
-                  setProgress(100);
+                  setProgress(0);
                   showSuccessToast("Images Fetched");
+                  setLoader(true);
                   setTimeout(() => {
-                    setProgress(0);
-                    showRegularToast("Generating Data");
-                    setLoader(true);
-                  }, 3000);
+                    showRegularToast("Detecting Tailing Dams");
+                  }, 2000);
                   messageDisplayed = true;
                 }
               }
@@ -168,7 +181,9 @@ export const TestMap = () => {
               if (response.complete) {
                 setLoader(false);
                 clearInterval(interval);
-                showSuccessToast("Final output generated");
+                setProgress(0);
+                setCount(response.features.length);
+                showSuccessToast("Process Completed");
               }
             })
             .catch((e) => {
@@ -206,7 +221,7 @@ export const TestMap = () => {
       zoomToExtent(feature);
       console.log(coordinates);
       setLoader(true);
-      showRegularToast("Post processing started");
+      showRegularToast("Request Initiated");
       apiFunction(inputCoords);
     }
   }, [coordinates]);
@@ -236,7 +251,7 @@ export const TestMap = () => {
       console.log(coords);
       map?.addLayer(vectorLayer);
       setLoader(true);
-      showRegularToast("Post processing started");
+      showRegularToast("Request Initiated");
       apiFunction(coords);
     });
 
@@ -249,12 +264,11 @@ export const TestMap = () => {
 
   const handleClose = () => {
     setOpen(!open);
-    console.log(open);
   };
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-    setFillOpacity(fillOpacity === 0 ? 0.4 : 0);
+    setFillOpacity(fillOpacity === 0 ? 0.2 : 0);
   };
 
   const resetState = () => {
@@ -266,6 +280,8 @@ export const TestMap = () => {
     setFillOpacity(0);
     setLoader(false);
     setArea(0);
+    setCount(0);
+    messageDisplayed = false;
   };
 
   useEffect(() => {
@@ -350,7 +366,7 @@ export const TestMap = () => {
                 fontWeight: "400",
               }}
             >
-              Lot Area
+              Input Area
             </h5>
           </div>
           <h5 style={{ color: "#54bc7f" }}>
@@ -358,7 +374,23 @@ export const TestMap = () => {
           </h5>
         </div>
 
+        <div className="tailing-area-box">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <h5
+              style={{
+                marginRight: ".3rem",
+                color: "#fff",
+                fontWeight: "400",
+              }}
+            >
+              Number Of Tailing Dam Regions Found:
+            </h5>
+          </div>
+          <h5 style={{ color: "#54bc7f" }}>{count}</h5>
+        </div>
+
         <div ref={mapEl} className="map" id="map" />
+        <div id="mouse-position" />
         {progress !== 0 && <CircularProgressOverlay progress={progress} />}
         {loader && (
           <div>

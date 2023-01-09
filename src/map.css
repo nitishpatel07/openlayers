@@ -163,6 +163,17 @@ body {
   height: 100%;
 }
 
+.custom-mouse-position{
+  position: absolute;
+  bottom: 0rem;
+  right:0rem;
+  z-index: 2;
+  background-color: #000000a4;
+  padding: 0.25rem;
+  height: 25px;
+  color: #54bc7f;
+}
+
 .loader-bg{
   height: 100%;
   width: 100%;
@@ -216,7 +227,20 @@ label{
 
 .lot-area-box{
   position: absolute;
-  bottom: 1rem;
+  bottom: 2.1rem;
+  right: 2rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background-color: #000000a4;
+  padding: 0rem 0.75rem;
+  border-radius: 2.5%;
+  height: 50px;
+}
+
+.tailing-area-box{
+  position: absolute;
+  bottom: 5.1rem;
   right: 2rem;
   z-index: 2;
   display: flex;
