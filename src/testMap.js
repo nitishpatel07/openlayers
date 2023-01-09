@@ -12,7 +12,9 @@ import { defaults as defaultInteractions } from "ol/interaction";
 import "./map.css";
 import Feature from "ol/Feature.js";
 import GeoJSON from "ol/format/GeoJSON";
-import CoordinateInputForm from "./coordinateInputForm";
+import CoordinateInputForm, {
+  convertToNumericArray,
+} from "./coordinateInputForm";
 import { Polygon } from "ol/geom";
 import { postAPI } from "./api";
 import TileImage from "ol/source/TileImage";
@@ -38,7 +40,9 @@ import {
 import { Link } from "react-router-dom";
 import MousePosition from "ol/control/MousePosition";
 import { createStringXY } from "ol/coordinate";
-import { defaults as defaultControls } from "ol/control";
+import TextField from "@mui/material/TextField";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import Button from "@mui/material/Button";
 
 var map;
 let messageDisplayed = false;
@@ -51,12 +55,11 @@ export const TestMap = () => {
   const [checked, setChecked] = React.useState(false);
   const [fillOpacity, setFillOpacity] = useState(0);
   const [loader, setLoader] = useState(false);
-  const [loaderWithValue, setLoaderWithValue] = useState(false);
   const [state, setState] = useState(false);
   const [coordinates, setCoordinates] = useState([]);
   const [area, setArea] = useState(0);
   const [count, setCount] = useState(0);
-  const [pointer, setPointer] = useState([]);
+
   const mapEl = useRef(null);
 
   const createFillStyleInput = (fillOpacity) => {
@@ -222,6 +225,7 @@ export const TestMap = () => {
       console.log(coordinates);
       setLoader(true);
       showRegularToast("Request Initiated");
+      messageDisplayed = false;
       apiFunction(inputCoords);
     }
   }, [coordinates]);
@@ -252,6 +256,7 @@ export const TestMap = () => {
       map?.addLayer(vectorLayer);
       setLoader(true);
       showRegularToast("Request Initiated");
+      messageDisplayed = false;
       apiFunction(coords);
     });
 
@@ -282,6 +287,14 @@ export const TestMap = () => {
     setArea(0);
     setCount(0);
     messageDisplayed = false;
+  };
+
+  const zoomIn = (e) => {
+    e.preventDefault();
+    map
+      .getView()
+      .setCenter(fromLonLat(convertToNumericArray(e.target.zoom.value)));
+    map.getView().setZoom(13);
   };
 
   useEffect(() => {
@@ -327,6 +340,31 @@ export const TestMap = () => {
               onChange={handleChange}
               inputProps={{ "aria-label": "controlled" }}
             />
+          </div>
+
+          <div>
+            <form onSubmit={zoomIn} className="search-box">
+              <TextField
+                label="Zoom In"
+                type="text"
+                name="zoom"
+                style={{ backgroundColor: "white" }}
+                size="small"
+              />
+
+              <Button
+                variant="contained"
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#6171c7",
+                  marginLeft: "1rem",
+                }}
+                type="submit"
+                size="small"
+              >
+                <ZoomInIcon />
+              </Button>
+            </form>
           </div>
         </div>
 
