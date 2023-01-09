@@ -181,6 +181,7 @@ const Mapping = () => {
         geometryFunction: geometryFunction,
       });
       map.addInteraction(draw);
+      console.log(map);
     } else {
       console.log("no vector");
       map.addLayer();
@@ -282,7 +283,7 @@ const Mapping = () => {
         id="map"
         style={{
           width: "100%",
-          height: "500px",
+          height: "100vh",
         }}
       ></div>
     </div>
