@@ -5,17 +5,12 @@ import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import GeoJSON from "ol/format/GeoJSON";
 import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
 import { fromLonLat } from "ol/proj";
 import Vector from "ol/source/Vector";
 import { createRegularPolygon, createBox } from "ol/interaction/Draw";
 import Draw from "ol/interaction/Draw";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
-import {
-  Select,
-  Translate,
-  defaults as defaultInteractions,
-} from "ol/interaction";
+import { Translate, defaults as defaultInteractions } from "ol/interaction";
 import "./map.css";
 
 var map, draw;

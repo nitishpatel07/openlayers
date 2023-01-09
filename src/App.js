@@ -1,6 +1,5 @@
 import "./App.css";
 import { Login } from "./login";
-import Mapping from "./map";
 import { TestMap } from "./testMap";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 function App() {
