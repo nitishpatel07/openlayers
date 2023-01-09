@@ -183,7 +183,7 @@ const Mapping = () => {
       map.addInteraction(draw);
       console.log(map);
     } else {
-      // console.log("no vector");
+      console.log("no vector");
       map.addLayer();
     }
   };
@@ -200,7 +200,7 @@ const Mapping = () => {
       <div className="header">
         {/* <button onClick={() => layer("1", "data.json")}>show vector layer</button> */}
         <div className="buttons">
-          {/* <div>
+          <div>
             <input
               type="radio"
               value="Square"
@@ -208,7 +208,7 @@ const Mapping = () => {
               name="button"
             />{" "}
             add square
-          </div> */}
+          </div>
           <div>
             <input
               type="radio"
@@ -218,7 +218,7 @@ const Mapping = () => {
             />{" "}
             add rectangle
           </div>
-          {/* <div>
+          <div>
             <input
               type="radio"
               value="Circle"
@@ -235,7 +235,7 @@ const Mapping = () => {
               name="button"
             />{" "}
             add polygon
-          </div> */}
+          </div>
         </div>
         <div>
           <input type="file" onChange={handleFileChange}></input>
