@@ -127,7 +127,7 @@ export const TestMap = () => {
     style: createFillStyleInput(fillOpacity),
   });
 
-  let NGROK = "https://ee62-35-230-100-55.ngrok.io";
+  let NGROK = "https://d1eb-35-230-100-55.ngrok.io";
   let POST_URL = NGROK + "/request";
   let POLL_URL = NGROK + "/poll";
 
