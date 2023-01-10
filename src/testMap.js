@@ -43,6 +43,7 @@ import { createStringXY } from "ol/coordinate";
 import TextField from "@mui/material/TextField";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import Button from "@mui/material/Button";
+import { easeIn } from "ol/easing";
 
 var map;
 let messageDisplayed = false;
@@ -185,6 +186,7 @@ export const TestMap = () => {
                 setLoader(false);
                 clearInterval(interval);
                 setProgress(0);
+                setOpen(true);
                 setCount(response.features.length);
                 showSuccessToast("Process Completed");
               }
@@ -226,6 +228,7 @@ export const TestMap = () => {
       setLoader(true);
       showRegularToast("Request Initiated");
       messageDisplayed = false;
+      setOpen(false);
       apiFunction(inputCoords);
     }
   }, [coordinates]);
@@ -257,6 +260,7 @@ export const TestMap = () => {
       setLoader(true);
       showRegularToast("Request Initiated");
       messageDisplayed = false;
+      setOpen(false);
       apiFunction(coords);
     });
 
@@ -291,10 +295,16 @@ export const TestMap = () => {
 
   const zoomIn = (e) => {
     e.preventDefault();
-    map
-      .getView()
-      .setCenter(fromLonLat(convertToNumericArray(e.target.zoom.value)));
-    map.getView().setZoom(13);
+    // map
+    //   .getView()
+    //   .setCenter(fromLonLat(convertToNumericArray(e.target.zoom.value)));
+    // map.getView().setZoom(13);
+    map.getView().animate({
+      center: fromLonLat(convertToNumericArray(e.target.zoom.value)),
+      zoom: 13,
+      duration: 300,
+      easing: easeIn,
+    });
   };
 
   useEffect(() => {
