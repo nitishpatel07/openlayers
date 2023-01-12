@@ -83,7 +83,7 @@ body {
   top:0rem;
   left:0rem;
   z-index: 2;
-  width:350px;
+  width:20%;
   background-color: #fff;
   height: 100%;
   transition: all 0.1s ease-in;
@@ -92,7 +92,7 @@ body {
 .show-coloum{
   position: absolute;
   top:0rem;
-  left:-20rem;
+  left:-20%;
   z-index: 2;
   width:20%;
   background-color: #fff;
@@ -100,11 +100,10 @@ body {
   transition: all 0.1s ease-in;
 }
 
-
 .collapsible-button{
   position: absolute;
   top:2rem;
-  left:16.35rem;
+  left:18.75%;
   z-index: 3;
   background-color:#25407d;
   color: white;
@@ -159,8 +158,30 @@ body {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+.search-box{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #d5dbfb;
+  padding: 0.75rem;
+  margin: 1rem 0.5rem;
+  border-radius: 2.5%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .map {
   height: 100%;
+}
+
+.custom-mouse-position{
+  position: absolute;
+  bottom: 0rem;
+  right:0rem;
+  z-index: 2;
+  background-color: #000000a4;
+  padding: 0.25rem;
+  height: 25px;
+  color: #54bc7f;
 }
 
 .loader-bg{
@@ -214,9 +235,23 @@ label{
   cursor: pointer;
 }
 
+
 .lot-area-box{
   position: absolute;
-  bottom: 1rem;
+  bottom: 2.3rem;
+  right: 2rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background-color: #000000a4;
+  padding: 0rem 0.75rem;
+  border-radius: 2.5%;
+  height: 50px;
+}
+
+.tailing-area-box{
+  position: absolute;
+  bottom: 5.7rem;
   right: 2rem;
   z-index: 2;
   display: flex;

@@ -5,12 +5,12 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
+export const convertToNumericArray = (inputString) => {
+  return inputString.split(",").map((x) => parseFloat(x));
+};
+
 const CoordinateInputForm = () => {
   const { coordinates, setCoordinates } = React.useContext(MyContext);
-
-  const convertToNumericArray = (inputString) => {
-    return inputString.split(",").map((x) => parseFloat(x));
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,7 +31,7 @@ const CoordinateInputForm = () => {
           Input Coordinates
         </h3>
         <p style={{ margin: "0px", fontSize: "17px", color: "gray" }}>
-          enter all the four co-ordinates in format of (lat,lon)
+          Enter all the four co-ordinates in format of (lon,lat)
         </p>
       </div>
 

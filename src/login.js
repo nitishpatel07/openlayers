@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./map.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Logo from "./logo.svg";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // const [condition, setCondition] = useState(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setEmail(event.target.email.value);
+    setPassword(event.target.password.value);
+    event.target.reset();
+  };
+  // useEffect(() => {}, [email]);
+  let condition = email === "test@attentive.ai" && password === "12345";
+  console.log(condition);
+  // setCondition(condition);
+
   return (
     <div className="login-box">
       <div
@@ -25,7 +42,7 @@ export const Login = () => {
             </p>
           </div>
 
-          <form style={{ textAlign: "center" }}>
+          <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
             <label className="gap">
               <TextField
                 label="Email"
@@ -38,13 +55,14 @@ export const Login = () => {
             <label className="gap">
               <TextField
                 label="Password"
-                type="text"
+                type="password"
                 name="password"
                 style={{ backgroundColor: "white" }}
                 size="small"
               />
             </label>
-            <Link to="/test">
+
+            <Link to={condition ? "/test" : "/test"}>
               <Button
                 variant="contained"
                 style={{
